@@ -30,6 +30,7 @@ namespace API.Models
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<client> client { get; set; }
         public virtual DbSet<product> product { get; set; }
+        public virtual DbSet<order> order { get; set; }
     
         public virtual ObjectResult<Productos_Result2> Productos_Result2()
         {
@@ -39,6 +40,11 @@ namespace API.Models
         public virtual ObjectResult<Usuario_Result> Usuario_Result()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Usuario_Result>("Usuario_Result");
+        }
+    
+        public virtual ObjectResult<Orders_Result1> Orders_Result1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Orders_Result1>("Orders_Result1");
         }
     }
 }

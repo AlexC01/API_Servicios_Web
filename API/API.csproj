@@ -182,6 +182,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\clientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ordersController.cs" />
+    <Compile Include="Controllers\ordersviewController.cs" />
     <Compile Include="Controllers\productsController.cs" />
     <Compile Include="Controllers\productsviewController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
@@ -207,6 +209,15 @@
       <DependentUpon>andinoshop.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\client.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\order.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders_Result1.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\product.cs">

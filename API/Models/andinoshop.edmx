@@ -16,6 +16,22 @@
           <Property Name="password_client" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="date_created" Type="datetime" />
         </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="consecutive" Type="varchar" MaxLength="15" StoreGeneratedPattern="Computed" />
+          <Property Name="date_order" Type="datetime" Nullable="false" />
+          <Property Name="date_delivered" Type="datetime" />
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="address_id" Type="int" Nullable="false" />
+          <Property Name="subtotal" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="tax_total" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="delivery" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="total" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="product">
           <Key>
             <PropertyRef Name="product_id" />
@@ -40,12 +56,32 @@
           <Property Name="type_user_id" Type="int" Nullable="false" />
           <Property Name="date_created" Type="datetime" />
         </EntityType>
+        <Association Name="FK_CL_Client">
+          <End Role="client" Type="Self.client" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="client">
+              <PropertyRef Name="client_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Orders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="andinoshopModelStoreContainer">
           <EntitySet Name="client" EntityType="Self.client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CL_Client" Association="Self.FK_CL_Client">
+            <End Role="client" EntitySet="client" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -70,6 +106,12 @@
           <FunctionImport Name="Productos_Result2" ReturnType="Collection(andinoshopModel.Productos_Result2)" />
           <EntitySet Name="product" EntityType="andinoshopModel.product" />
           <FunctionImport Name="Usuario_Result" ReturnType="Collection(andinoshopModel.Usuario_Result)" />
+          <EntitySet Name="order" EntityType="andinoshopModel.order" />
+          <AssociationSet Name="FK_CL_Client" Association="andinoshopModel.FK_CL_Client">
+            <End Role="client" EntitySet="client" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <FunctionImport Name="Orders_Result1" ReturnType="Collection(andinoshopModel.Orders_Result1)" />
         </EntityContainer>
         <EntityType Name="client">
           <Key>
@@ -81,6 +123,7 @@
           <Property Name="email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="password_client" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="date_created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="order" Relationship="andinoshopModel.FK_CL_Client" FromRole="client" ToRole="order" />
         </EntityType>
         <ComplexType Name="Productos_Result">
           <Property Type="Int32" Name="product_id" Nullable="false" />
@@ -125,6 +168,51 @@
           <Property Type="String" Name="password_user" Nullable="false" MaxLength="128" />
           <Property Type="String" Name="rol" Nullable="false" MaxLength="100" />
           <Property Type="Int32" Name="type_user_id" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="consecutive" Type="String" MaxLength="15" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="date_order" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_delivered" Type="DateTime" Precision="3" />
+          <Property Name="address_id" Type="Int32" Nullable="false" />
+          <Property Name="subtotal" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="tax_total" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="delivery" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <NavigationProperty Name="client" Relationship="andinoshopModel.FK_CL_Client" FromRole="order" ToRole="client" />
+        </EntityType>
+        <Association Name="FK_CL_Client">
+          <End Type="andinoshopModel.client" Role="client" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="andinoshopModel.order" Role="order" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="Orders_Result">
+          <Property Type="String" Name="consecutive" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="date_order" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="date_delivered" Nullable="true" Precision="23" />
+          <Property Type="String" Name="cliente" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="direccion" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="subtotal" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="tax_total" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="delivery" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Orders_Result1">
+          <Property Type="String" Name="consecutive" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="date_order" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="date_delivered" Nullable="true" Precision="23" />
+          <Property Type="String" Name="cliente" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="direccion" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="subtotal" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="tax_total" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="delivery" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="total" Nullable="false" Precision="8" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -194,6 +282,46 @@
                 <ScalarProperty Name="password_user" ColumnName="password_user" />
                 <ScalarProperty Name="rol" ColumnName="rol" />
                 <ScalarProperty Name="type_user_id" ColumnName="type_user_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="order">
+            <EntityTypeMapping TypeName="andinoshopModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="delivery" ColumnName="delivery" />
+                <ScalarProperty Name="tax_total" ColumnName="tax_total" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="date_delivered" ColumnName="date_delivered" />
+                <ScalarProperty Name="date_order" ColumnName="date_order" />
+                <ScalarProperty Name="consecutive" ColumnName="consecutive" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_CL_Client" TypeName="andinoshopModel.FK_CL_Client" StoreEntitySet="order">
+            <EndProperty Name="order">
+              <ScalarProperty Name="order_id" ColumnName="order_id" />
+            </EndProperty>
+            <EndProperty Name="client">
+              <ScalarProperty Name="client_id" ColumnName="client_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="Orders_Result1" FunctionName="andinoshopModel.Store.Orders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="andinoshopModel.Orders_Result1">
+                <ScalarProperty Name="consecutive" ColumnName="consecutive" />
+                <ScalarProperty Name="date_order" ColumnName="date_order" />
+                <ScalarProperty Name="date_delivered" ColumnName="date_delivered" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="tax_total" ColumnName="tax_total" />
+                <ScalarProperty Name="delivery" ColumnName="delivery" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="total" ColumnName="total" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

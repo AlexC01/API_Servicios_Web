@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="andinoshopModel.user" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="andinoshopModel.client" Width="1.5" PointX="3.5" PointY="4.125" />
         <EntityTypeShape EntityType="andinoshopModel.product" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="andinoshopModel.order" Width="1.5" PointX="10" PointY="1.375" />
+        <AssociationConnector Association="andinoshopModel.FK_CL_Client" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

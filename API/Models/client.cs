@@ -14,11 +14,20 @@ namespace API.Models
     
     public partial class client
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public client()
+        {
+            this.order = new HashSet<order>();
+        }
+    
         public int client_id { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
         public string password_client { get; set; }
         public Nullable<System.DateTime> date_created { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order> order { get; set; }
     }
 }
