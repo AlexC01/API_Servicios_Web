@@ -70,6 +70,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="OrdenGuardar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="order_id" Type="int" Mode="In" />
+          <Parameter Name="consecutive" Type="varchar" Mode="In" />
+          <Parameter Name="date_order" Type="datetime" Mode="In" />
+          <Parameter Name="date_delivered" Type="datetime" Mode="In" />
+          <Parameter Name="client_id" Type="int" Mode="In" />
+          <Parameter Name="address_id" Type="int" Mode="In" />
+          <Parameter Name="subtotal" Type="decimal" Mode="In" />
+          <Parameter Name="tax_total" Type="decimal" Mode="In" />
+          <Parameter Name="delivery" Type="decimal" Mode="In" />
+          <Parameter Name="status_id" Type="int" Mode="In" />
+          <Parameter Name="total" Type="decimal" Mode="In" />
+          <Parameter Name="Validate" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Orders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -112,6 +126,20 @@
             <End Role="order" EntitySet="order" />
           </AssociationSet>
           <FunctionImport Name="Orders_Result1" ReturnType="Collection(andinoshopModel.Orders_Result1)" />
+          <FunctionImport Name="OrdenGuardar_Result" ReturnType="Collection(andinoshopModel.OrdenGuardar_Result)">
+            <Parameter Name="order_id" Mode="In" Type="Int32" />
+            <Parameter Name="consecutive" Mode="In" Type="String" />
+            <Parameter Name="date_order" Mode="In" Type="DateTime" />
+            <Parameter Name="date_delivered" Mode="In" Type="DateTime" />
+            <Parameter Name="client_id" Mode="In" Type="Int32" />
+            <Parameter Name="address_id" Mode="In" Type="Int32" />
+            <Parameter Name="subtotal" Mode="In" Type="Decimal" />
+            <Parameter Name="tax_total" Mode="In" Type="Decimal" />
+            <Parameter Name="delivery" Mode="In" Type="Decimal" />
+            <Parameter Name="status_id" Mode="In" Type="Int32" />
+            <Parameter Name="total" Mode="In" Type="Decimal" />
+            <Parameter Name="Validate" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="client">
           <Key>
@@ -213,6 +241,10 @@
           <Property Type="Decimal" Name="delivery" Nullable="false" Precision="8" Scale="2" />
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="total" Nullable="false" Precision="8" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="OrdenGuardar_Result">
+          <Property Type="Int32" Name="Estado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -322,6 +354,14 @@
                 <ScalarProperty Name="delivery" ColumnName="delivery" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="total" ColumnName="total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OrdenGuardar_Result" FunctionName="andinoshopModel.Store.OrdenGuardar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="andinoshopModel.OrdenGuardar_Result">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -46,5 +46,58 @@ namespace API.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Orders_Result1>("Orders_Result1");
         }
+    
+        public virtual ObjectResult<OrdenGuardar_Result> OrdenGuardar_Result(Nullable<int> order_id, string consecutive, Nullable<System.DateTime> date_order, Nullable<System.DateTime> date_delivered, Nullable<int> client_id, Nullable<int> address_id, Nullable<decimal> subtotal, Nullable<decimal> tax_total, Nullable<decimal> delivery, Nullable<int> status_id, Nullable<decimal> total, string validate)
+        {
+            var order_idParameter = order_id.HasValue ?
+                new ObjectParameter("order_id", order_id) :
+                new ObjectParameter("order_id", typeof(int));
+    
+            var consecutiveParameter = consecutive != null ?
+                new ObjectParameter("consecutive", consecutive) :
+                new ObjectParameter("consecutive", typeof(string));
+    
+            var date_orderParameter = date_order.HasValue ?
+                new ObjectParameter("date_order", date_order) :
+                new ObjectParameter("date_order", typeof(System.DateTime));
+    
+            var date_deliveredParameter = date_delivered.HasValue ?
+                new ObjectParameter("date_delivered", date_delivered) :
+                new ObjectParameter("date_delivered", typeof(System.DateTime));
+    
+            var client_idParameter = client_id.HasValue ?
+                new ObjectParameter("client_id", client_id) :
+                new ObjectParameter("client_id", typeof(int));
+    
+            var address_idParameter = address_id.HasValue ?
+                new ObjectParameter("address_id", address_id) :
+                new ObjectParameter("address_id", typeof(int));
+    
+            var subtotalParameter = subtotal.HasValue ?
+                new ObjectParameter("subtotal", subtotal) :
+                new ObjectParameter("subtotal", typeof(decimal));
+    
+            var tax_totalParameter = tax_total.HasValue ?
+                new ObjectParameter("tax_total", tax_total) :
+                new ObjectParameter("tax_total", typeof(decimal));
+    
+            var deliveryParameter = delivery.HasValue ?
+                new ObjectParameter("delivery", delivery) :
+                new ObjectParameter("delivery", typeof(decimal));
+    
+            var status_idParameter = status_id.HasValue ?
+                new ObjectParameter("status_id", status_id) :
+                new ObjectParameter("status_id", typeof(int));
+    
+            var totalParameter = total.HasValue ?
+                new ObjectParameter("total", total) :
+                new ObjectParameter("total", typeof(decimal));
+    
+            var validateParameter = validate != null ?
+                new ObjectParameter("Validate", validate) :
+                new ObjectParameter("Validate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdenGuardar_Result>("OrdenGuardar_Result", order_idParameter, consecutiveParameter, date_orderParameter, date_deliveredParameter, client_idParameter, address_idParameter, subtotalParameter, tax_totalParameter, deliveryParameter, status_idParameter, totalParameter, validateParameter);
+        }
     }
 }

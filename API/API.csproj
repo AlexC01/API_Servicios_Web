@@ -18,8 +18,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44391</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -183,10 +182,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\clientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ordersController.cs" />
-    <Compile Include="Controllers\ordersviewController.cs" />
     <Compile Include="Controllers\productsController.cs" />
     <Compile Include="Controllers\productsviewController.cs" />
+    <Compile Include="Controllers\ordenController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\usersController.cs" />
     <Compile Include="Controllers\usersviewController.cs" />
@@ -212,6 +210,9 @@
     <Compile Include="Models\client.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrdenGuardar_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\order.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
@@ -234,6 +235,7 @@
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RefreshTokenRequest.cs" />
+    <Compile Include="Models\orden.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\TokenValidationHandler.cs" />
     <Compile Include="Models\user.cs">
