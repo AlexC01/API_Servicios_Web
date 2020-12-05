@@ -14,9 +14,9 @@ namespace API.Controllers
     {
         private andinoshopEntities1 db = new andinoshopEntities1();
 
-        public List<Orders_Result1> GetOrders_Results()
+        public List<Orders_Result3> GetOrders_Results()
         {
-            return db.Orders_Result1().ToList();
+            return db.Orders_Result3().ToList();
         }
 
         public IHttpActionResult Post(Models.orden test)

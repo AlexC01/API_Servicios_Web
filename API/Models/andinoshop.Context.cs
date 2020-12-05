@@ -31,6 +31,7 @@ namespace API.Models
         public virtual DbSet<client> client { get; set; }
         public virtual DbSet<product> product { get; set; }
         public virtual DbSet<order> order { get; set; }
+        public virtual DbSet<inventory> inventory { get; set; }
     
         public virtual ObjectResult<Productos_Result2> Productos_Result2()
         {
@@ -40,11 +41,6 @@ namespace API.Models
         public virtual ObjectResult<Usuario_Result> Usuario_Result()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Usuario_Result>("Usuario_Result");
-        }
-    
-        public virtual ObjectResult<Orders_Result1> Orders_Result1()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Orders_Result1>("Orders_Result1");
         }
     
         public virtual ObjectResult<OrdenGuardar_Result> OrdenGuardar_Result(Nullable<int> order_id, string consecutive, Nullable<System.DateTime> date_order, Nullable<System.DateTime> date_delivered, Nullable<int> client_id, Nullable<int> address_id, Nullable<decimal> subtotal, Nullable<decimal> tax_total, Nullable<decimal> delivery, Nullable<int> status_id, Nullable<decimal> total, string validate)
@@ -98,6 +94,53 @@ namespace API.Models
                 new ObjectParameter("Validate", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdenGuardar_Result>("OrdenGuardar_Result", order_idParameter, consecutiveParameter, date_orderParameter, date_deliveredParameter, client_idParameter, address_idParameter, subtotalParameter, tax_totalParameter, deliveryParameter, status_idParameter, totalParameter, validateParameter);
+        }
+    
+        public virtual ObjectResult<InventarioGuardar_Result> InventarioGuardar_Result(Nullable<int> inventory_id, Nullable<int> product_id, Nullable<int> user_id, Nullable<double> quantity, Nullable<int> measure_id, Nullable<System.DateTime> date_created, Nullable<decimal> price, string validate)
+        {
+            var inventory_idParameter = inventory_id.HasValue ?
+                new ObjectParameter("inventory_id", inventory_id) :
+                new ObjectParameter("inventory_id", typeof(int));
+    
+            var product_idParameter = product_id.HasValue ?
+                new ObjectParameter("product_id", product_id) :
+                new ObjectParameter("product_id", typeof(int));
+    
+            var user_idParameter = user_id.HasValue ?
+                new ObjectParameter("user_id", user_id) :
+                new ObjectParameter("user_id", typeof(int));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(double));
+    
+            var measure_idParameter = measure_id.HasValue ?
+                new ObjectParameter("measure_id", measure_id) :
+                new ObjectParameter("measure_id", typeof(int));
+    
+            var date_createdParameter = date_created.HasValue ?
+                new ObjectParameter("date_created", date_created) :
+                new ObjectParameter("date_created", typeof(System.DateTime));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("price", price) :
+                new ObjectParameter("price", typeof(decimal));
+    
+            var validateParameter = validate != null ?
+                new ObjectParameter("Validate", validate) :
+                new ObjectParameter("Validate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InventarioGuardar_Result>("InventarioGuardar_Result", inventory_idParameter, product_idParameter, user_idParameter, quantityParameter, measure_idParameter, date_createdParameter, priceParameter, validateParameter);
+        }
+    
+        public virtual ObjectResult<Inventario_Result2> Inventario_Result2()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Inventario_Result2>("Inventario_Result2");
+        }
+    
+        public virtual ObjectResult<Orders_Result3> Orders_Result3()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Orders_Result3>("Orders_Result3");
         }
     }
 }

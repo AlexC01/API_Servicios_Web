@@ -14,6 +14,12 @@ namespace API.Models
     
     public partial class user
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public user()
+        {
+            this.inventory = new HashSet<inventory>();
+        }
+    
         public int user_id { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
@@ -22,5 +28,8 @@ namespace API.Models
         public string password_user { get; set; }
         public int type_user_id { get; set; }
         public Nullable<System.DateTime> date_created { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<inventory> inventory { get; set; }
     }
 }

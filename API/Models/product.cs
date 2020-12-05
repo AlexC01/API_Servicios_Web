@@ -14,11 +14,20 @@ namespace API.Models
     
     public partial class product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public product()
+        {
+            this.inventory = new HashSet<inventory>();
+        }
+    
         public int product_id { get; set; }
         public string name { get; set; }
         public int brand_id { get; set; }
         public string description { get; set; }
         public int category_id { get; set; }
         public Nullable<System.DateTime> date_added { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<inventory> inventory { get; set; }
     }
 }

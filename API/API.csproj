@@ -182,12 +182,11 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\clientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\inventoryController.cs" />
     <Compile Include="Controllers\productsController.cs" />
-    <Compile Include="Controllers\productsviewController.cs" />
     <Compile Include="Controllers\ordenController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\usersController.cs" />
-    <Compile Include="Controllers\usersviewController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -210,6 +209,22 @@
     <Compile Include="Models\client.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InventarioGuardar_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario_Result1.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventario_Result2.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inventory.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\inventoryCLS.cs" />
     <Compile Include="Models\OrdenGuardar_Result.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
@@ -220,6 +235,12 @@
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Orders_Result1.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders_Result2.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders_Result3.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\product.cs">
