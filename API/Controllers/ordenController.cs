@@ -22,7 +22,7 @@ namespace API.Controllers
 
         public IHttpActionResult Post(Models.orden test)
         {
-            db.OrdenGuardar_Result(0, null, test.date_order, test.date_delivered, test.client_id, test.address_id, test.subtotal, test.tax_total, test.delivery, test.status_id, test.total, "A");
+            db.OrdenGuardar_Result(test.order_id, null, test.date_order, test.client_id, test.address_id, test.subtotal, test.tax_total, test.delivery, test.status_id, test.total, "A");
             return CreatedAtRoute("DefaultApi", new { id = test.order_id}, test);
         }
 
@@ -38,7 +38,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            db.OrdenGuardar_Result(test.order_id, null, test.date_order, test.date_delivered, test.client_id, test.address_id, test.subtotal, test.tax_total, test.delivery, test.status_id, test.total, "U");
+            db.OrdenGuardar_Result(test.order_id, null, test.date_order, test.client_id, test.address_id, test.subtotal, test.tax_total, test.delivery, test.status_id, test.total, "U");
             return StatusCode(HttpStatusCode.NoContent);
         }
 

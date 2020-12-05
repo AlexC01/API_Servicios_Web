@@ -13,7 +13,6 @@ namespace API.Models
         public int order_id { get; set; }
         public string consecutive { get; set; }
         public DateTime date_order { get; set; }
-        public DateTime date_delivered { get; set; }
         
         public int client_id { get; set; }
         [ForeignKey("client_id")]

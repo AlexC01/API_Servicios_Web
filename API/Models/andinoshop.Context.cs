@@ -39,7 +39,7 @@ namespace API.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Usuario_Result>("Usuario_Result");
         }
     
-        public virtual ObjectResult<OrdenGuardar_Result> OrdenGuardar_Result(Nullable<int> order_id, string consecutive, Nullable<System.DateTime> date_order, Nullable<System.DateTime> date_delivered, Nullable<int> client_id, Nullable<int> address_id, Nullable<decimal> subtotal, Nullable<decimal> tax_total, Nullable<decimal> delivery, Nullable<int> status_id, Nullable<decimal> total, string validate)
+        public virtual ObjectResult<OrdenGuardar_Result> OrdenGuardar_Result(Nullable<int> order_id, string consecutive, Nullable<System.DateTime> date_order, Nullable<int> client_id, Nullable<int> address_id, Nullable<decimal> subtotal, Nullable<decimal> tax_total, Nullable<decimal> delivery, Nullable<int> status_id, Nullable<decimal> total, string validate)
         {
             var order_idParameter = order_id.HasValue ?
                 new ObjectParameter("order_id", order_id) :
@@ -52,10 +52,6 @@ namespace API.Models
             var date_orderParameter = date_order.HasValue ?
                 new ObjectParameter("date_order", date_order) :
                 new ObjectParameter("date_order", typeof(System.DateTime));
-    
-            var date_deliveredParameter = date_delivered.HasValue ?
-                new ObjectParameter("date_delivered", date_delivered) :
-                new ObjectParameter("date_delivered", typeof(System.DateTime));
     
             var client_idParameter = client_id.HasValue ?
                 new ObjectParameter("client_id", client_id) :
@@ -89,7 +85,7 @@ namespace API.Models
                 new ObjectParameter("Validate", validate) :
                 new ObjectParameter("Validate", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdenGuardar_Result>("OrdenGuardar_Result", order_idParameter, consecutiveParameter, date_orderParameter, date_deliveredParameter, client_idParameter, address_idParameter, subtotalParameter, tax_totalParameter, deliveryParameter, status_idParameter, totalParameter, validateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdenGuardar_Result>("OrdenGuardar_Result", order_idParameter, consecutiveParameter, date_orderParameter, client_idParameter, address_idParameter, subtotalParameter, tax_totalParameter, deliveryParameter, status_idParameter, totalParameter, validateParameter);
         }
     
         public virtual ObjectResult<InventarioGuardar_Result> InventarioGuardar_Result(Nullable<int> inventory_id, Nullable<int> product_id, Nullable<int> user_id, Nullable<double> quantity, Nullable<int> measure_id, Nullable<System.DateTime> date_created, string validate)

@@ -163,7 +163,6 @@
           <Parameter Name="order_id" Type="int" Mode="In" />
           <Parameter Name="consecutive" Type="varchar" Mode="In" />
           <Parameter Name="date_order" Type="datetime" Mode="In" />
-          <Parameter Name="date_delivered" Type="datetime" Mode="In" />
           <Parameter Name="client_id" Type="int" Mode="In" />
           <Parameter Name="address_id" Type="int" Mode="In" />
           <Parameter Name="subtotal" Type="decimal" Mode="In" />
@@ -247,7 +246,6 @@
             <Parameter Name="order_id" Mode="In" Type="Int32" />
             <Parameter Name="consecutive" Mode="In" Type="String" />
             <Parameter Name="date_order" Mode="In" Type="DateTime" />
-            <Parameter Name="date_delivered" Mode="In" Type="DateTime" />
             <Parameter Name="client_id" Mode="In" Type="Int32" />
             <Parameter Name="address_id" Mode="In" Type="Int32" />
             <Parameter Name="subtotal" Mode="In" Type="Decimal" />
