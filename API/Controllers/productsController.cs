@@ -20,9 +20,9 @@ namespace API.Controllers
         private andinoshopEntities1 db = new andinoshopEntities1();
 
         // GET: api/products
-        public List<Productos_Result2> GetProductos_Results()
+        public List<Productos_Result3> GetProductos_Results()
         {
-            return db.Productos_Result2().ToList();
+            return db.Productos_Result3().ToList();
         }
 
         // GET: api/products/5

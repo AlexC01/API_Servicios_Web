@@ -12,15 +12,15 @@ namespace API.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class inventory
+    public partial class order_detail
     {
-        public int inventory_id { get; set; }
-        public double quantity { get; set; }
-        public Nullable<int> measure_id { get; set; }
-        public System.DateTime date_created { get; set; }
-        public Nullable<System.DateTime> date_modify { get; set; }
+        public int order_detail1 { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
+        public decimal tax { get; set; }
+        public decimal subtotal { get; set; }
     
+        public virtual order order { get; set; }
         public virtual product product { get; set; }
-        public virtual user user { get; set; }
     }
 }

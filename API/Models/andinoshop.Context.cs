@@ -32,11 +32,7 @@ namespace API.Models
         public virtual DbSet<product> product { get; set; }
         public virtual DbSet<order> order { get; set; }
         public virtual DbSet<inventory> inventory { get; set; }
-    
-        public virtual ObjectResult<Productos_Result2> Productos_Result2()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Productos_Result2>("Productos_Result2");
-        }
+        public virtual DbSet<order_detail> order_detail { get; set; }
     
         public virtual ObjectResult<Usuario_Result> Usuario_Result()
         {
@@ -96,7 +92,7 @@ namespace API.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdenGuardar_Result>("OrdenGuardar_Result", order_idParameter, consecutiveParameter, date_orderParameter, date_deliveredParameter, client_idParameter, address_idParameter, subtotalParameter, tax_totalParameter, deliveryParameter, status_idParameter, totalParameter, validateParameter);
         }
     
-        public virtual ObjectResult<InventarioGuardar_Result> InventarioGuardar_Result(Nullable<int> inventory_id, Nullable<int> product_id, Nullable<int> user_id, Nullable<double> quantity, Nullable<int> measure_id, Nullable<System.DateTime> date_created, Nullable<decimal> price, string validate)
+        public virtual ObjectResult<InventarioGuardar_Result> InventarioGuardar_Result(Nullable<int> inventory_id, Nullable<int> product_id, Nullable<int> user_id, Nullable<double> quantity, Nullable<int> measure_id, Nullable<System.DateTime> date_created, string validate)
         {
             var inventory_idParameter = inventory_id.HasValue ?
                 new ObjectParameter("inventory_id", inventory_id) :
@@ -122,25 +118,68 @@ namespace API.Models
                 new ObjectParameter("date_created", date_created) :
                 new ObjectParameter("date_created", typeof(System.DateTime));
     
-            var priceParameter = price.HasValue ?
-                new ObjectParameter("price", price) :
-                new ObjectParameter("price", typeof(decimal));
-    
             var validateParameter = validate != null ?
                 new ObjectParameter("Validate", validate) :
                 new ObjectParameter("Validate", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InventarioGuardar_Result>("InventarioGuardar_Result", inventory_idParameter, product_idParameter, user_idParameter, quantityParameter, measure_idParameter, date_createdParameter, priceParameter, validateParameter);
-        }
-    
-        public virtual ObjectResult<Inventario_Result2> Inventario_Result2()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Inventario_Result2>("Inventario_Result2");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InventarioGuardar_Result>("InventarioGuardar_Result", inventory_idParameter, product_idParameter, user_idParameter, quantityParameter, measure_idParameter, date_createdParameter, validateParameter);
         }
     
         public virtual ObjectResult<Orders_Result3> Orders_Result3()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Orders_Result3>("Orders_Result3");
+        }
+    
+        public virtual ObjectResult<OrderDetailGuardar_Result> OrderDetailGuardar_Result(Nullable<int> order_detail, Nullable<int> order_id, Nullable<int> product_id, Nullable<double> quantity, Nullable<decimal> price, Nullable<decimal> tax, Nullable<decimal> subtotal, string validate)
+        {
+            var order_detailParameter = order_detail.HasValue ?
+                new ObjectParameter("order_detail", order_detail) :
+                new ObjectParameter("order_detail", typeof(int));
+    
+            var order_idParameter = order_id.HasValue ?
+                new ObjectParameter("order_id", order_id) :
+                new ObjectParameter("order_id", typeof(int));
+    
+            var product_idParameter = product_id.HasValue ?
+                new ObjectParameter("product_id", product_id) :
+                new ObjectParameter("product_id", typeof(int));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(double));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("price", price) :
+                new ObjectParameter("price", typeof(decimal));
+    
+            var taxParameter = tax.HasValue ?
+                new ObjectParameter("tax", tax) :
+                new ObjectParameter("tax", typeof(decimal));
+    
+            var subtotalParameter = subtotal.HasValue ?
+                new ObjectParameter("subtotal", subtotal) :
+                new ObjectParameter("subtotal", typeof(decimal));
+    
+            var validateParameter = validate != null ?
+                new ObjectParameter("Validate", validate) :
+                new ObjectParameter("Validate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrderDetailGuardar_Result>("OrderDetailGuardar_Result", order_detailParameter, order_idParameter, product_idParameter, quantityParameter, priceParameter, taxParameter, subtotalParameter, validateParameter);
+        }
+    
+        public virtual ObjectResult<Inventario_Result3> Inventario_Result3()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Inventario_Result3>("Inventario_Result3");
+        }
+    
+        public virtual ObjectResult<Productos_Result3> Productos_Result3()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Productos_Result3>("Productos_Result3");
+        }
+    
+        public virtual ObjectResult<OrderDetail_Result1> OrderDetail_Result1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrderDetail_Result1>("OrderDetail_Result1");
         }
     }
 }

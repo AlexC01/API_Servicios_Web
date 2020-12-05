@@ -17,7 +17,7 @@ namespace API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public product()
         {
-            this.inventory = new HashSet<inventory>();
+            this.order_detail = new HashSet<order_detail>();
         }
     
         public int product_id { get; set; }
@@ -26,8 +26,9 @@ namespace API.Models
         public string description { get; set; }
         public int category_id { get; set; }
         public Nullable<System.DateTime> date_added { get; set; }
+        public Nullable<decimal> price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<inventory> inventory { get; set; }
+        public virtual ICollection<order_detail> order_detail { get; set; }
     }
 }

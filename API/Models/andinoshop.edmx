@@ -27,7 +27,6 @@
           <Property Name="measure_id" Type="int" />
           <Property Name="date_created" Type="datetime" Nullable="false" />
           <Property Name="date_modify" Type="datetime" />
-          <Property Name="price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -45,6 +44,18 @@
           <Property Name="status_id" Type="int" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="order_detail" />
+          </Key>
+          <Property Name="order_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="tax" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="subtotal" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="product">
           <Key>
             <PropertyRef Name="product_id" />
@@ -55,6 +66,7 @@
           <Property Name="description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="category_id" Type="int" Nullable="false" />
           <Property Name="date_added" Type="datetime" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -83,6 +95,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OD_Order">
+          <End Role="order" Type="Self.order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PD_Product">
           <End Role="product" Type="Self.product" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -93,6 +119,20 @@
               <PropertyRef Name="product_id" />
             </Principal>
             <Dependent Role="inventory">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PT_Product">
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="product_id" />
+            </Principal>
+            <Dependent Role="order_detail">
               <PropertyRef Name="product_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -117,7 +157,6 @@
           <Parameter Name="quantity" Type="float" Mode="In" />
           <Parameter Name="measure_id" Type="int" Mode="In" />
           <Parameter Name="date_created" Type="datetime" Mode="In" />
-          <Parameter Name="price" Type="decimal" Mode="In" />
           <Parameter Name="Validate" Type="varchar" Mode="In" />
         </Function>
         <Function Name="OrdenGuardar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -134,6 +173,17 @@
           <Parameter Name="total" Type="decimal" Mode="In" />
           <Parameter Name="Validate" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="OrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="OrderDetailGuardar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="order_detail" Type="int" Mode="In" />
+          <Parameter Name="order_id" Type="int" Mode="In" />
+          <Parameter Name="product_id" Type="int" Mode="In" />
+          <Parameter Name="quantity" Type="float" Mode="In" />
+          <Parameter Name="price" Type="decimal" Mode="In" />
+          <Parameter Name="tax" Type="decimal" Mode="In" />
+          <Parameter Name="subtotal" Type="decimal" Mode="In" />
+          <Parameter Name="Validate" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Orders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -141,15 +191,24 @@
           <EntitySet Name="client" EntityType="Self.client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_detail" EntityType="Self.order_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CL_Client" Association="Self.FK_CL_Client">
             <End Role="client" EntitySet="client" />
             <End Role="order" EntitySet="order" />
           </AssociationSet>
+          <AssociationSet Name="FK_OD_Order" Association="Self.FK_OD_Order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
           <AssociationSet Name="FK_PD_Product" Association="Self.FK_PD_Product">
             <End Role="product" EntitySet="product" />
             <End Role="inventory" EntitySet="inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PT_Product" Association="Self.FK_PT_Product">
+            <End Role="product" EntitySet="product" />
+            <End Role="order_detail" EntitySet="order_detail" />
           </AssociationSet>
           <AssociationSet Name="FK_UE_User" Association="Self.FK_UE_User">
             <End Role="user" EntitySet="user" />
@@ -177,7 +236,6 @@
         <EntityContainer Name="andinoshopEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="user" EntityType="Self.user" />
           <EntitySet Name="client" EntityType="andinoshopModel.client" />
-          <FunctionImport Name="Productos_Result2" ReturnType="Collection(andinoshopModel.Productos_Result2)" />
           <EntitySet Name="product" EntityType="andinoshopModel.product" />
           <FunctionImport Name="Usuario_Result" ReturnType="Collection(andinoshopModel.Usuario_Result)" />
           <EntitySet Name="order" EntityType="andinoshopModel.order" />
@@ -206,7 +264,17 @@
             <Parameter Name="quantity" Mode="In" Type="Double" />
             <Parameter Name="measure_id" Mode="In" Type="Int32" />
             <Parameter Name="date_created" Mode="In" Type="DateTime" />
+            <Parameter Name="Validate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Orders_Result3" ReturnType="Collection(andinoshopModel.Orders_Result3)" />
+          <FunctionImport Name="OrderDetailGuardar_Result" ReturnType="Collection(andinoshopModel.OrderDetailGuardar_Result)">
+            <Parameter Name="order_detail" Mode="In" Type="Int32" />
+            <Parameter Name="order_id" Mode="In" Type="Int32" />
+            <Parameter Name="product_id" Mode="In" Type="Int32" />
+            <Parameter Name="quantity" Mode="In" Type="Double" />
             <Parameter Name="price" Mode="In" Type="Decimal" />
+            <Parameter Name="tax" Mode="In" Type="Decimal" />
+            <Parameter Name="subtotal" Mode="In" Type="Decimal" />
             <Parameter Name="Validate" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="inventory" EntityType="andinoshopModel.inventory" />
@@ -218,8 +286,18 @@
             <End Role="user" EntitySet="user" />
             <End Role="inventory" EntitySet="inventory" />
           </AssociationSet>
-          <FunctionImport Name="Inventario_Result2" ReturnType="Collection(andinoshopModel.Inventario_Result2)" />
-          <FunctionImport Name="Orders_Result3" ReturnType="Collection(andinoshopModel.Orders_Result3)" />
+          <FunctionImport Name="Inventario_Result3" ReturnType="Collection(andinoshopModel.Inventario_Result3)" />
+          <FunctionImport Name="Productos_Result3" ReturnType="Collection(andinoshopModel.Productos_Result3)" />
+          <FunctionImport Name="OrderDetail_Result1" ReturnType="Collection(andinoshopModel.OrderDetail_Result1)" />
+          <EntitySet Name="order_detail" EntityType="andinoshopModel.order_detail" />
+          <AssociationSet Name="FK_OD_Order" Association="andinoshopModel.FK_OD_Order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PT_Product" Association="andinoshopModel.FK_PT_Product">
+            <End Role="product" EntitySet="product" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="client">
           <Key>
@@ -266,7 +344,8 @@
           <Property Name="description" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="category_id" Type="Int32" Nullable="false" />
           <Property Name="date_added" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="inventory" Relationship="andinoshopModel.FK_PD_Product" FromRole="product" ToRole="inventory" />
+          <Property Name="price" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="order_detail" Relationship="andinoshopModel.FK_PT_Product" FromRole="product" ToRole="order_detail" />
         </EntityType>
         <ComplexType Name="Usuario_Result">
           <Property Type="Int32" Name="user_id" Nullable="false" />
@@ -293,6 +372,7 @@
           <Property Name="status_id" Type="Int32" Nullable="false" />
           <Property Name="total" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <NavigationProperty Name="client" Relationship="andinoshopModel.FK_CL_Client" FromRole="order" ToRole="client" />
+          <NavigationProperty Name="order_detail" Relationship="andinoshopModel.FK_OD_Order" FromRole="order" ToRole="order_detail" />
         </EntityType>
         <Association Name="FK_CL_Client">
           <End Type="andinoshopModel.client" Role="client" Multiplicity="1">
@@ -341,29 +421,6 @@
           <Property Type="Int32" Name="Estado" Nullable="true" />
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="500" />
         </ComplexType>
-        <EntityType Name="inventory">
-          <Key>
-            <PropertyRef Name="inventory_id" />
-          </Key>
-          <Property Name="inventory_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="quantity" Type="Double" Nullable="false" />
-          <Property Name="measure_id" Type="Int32" />
-          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="date_modify" Type="DateTime" Precision="3" />
-          <Property Name="price" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
-          <NavigationProperty Name="product" Relationship="andinoshopModel.FK_PD_Product" FromRole="inventory" ToRole="product" />
-          <NavigationProperty Name="user" Relationship="andinoshopModel.FK_UE_User" FromRole="inventory" ToRole="user" />
-        </EntityType>
-        <Association Name="FK_PD_Product">
-          <End Type="andinoshopModel.product" Role="product" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="andinoshopModel.inventory" Role="inventory" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_UE_User">
-          <End Type="andinoshopModel.user" Role="user" Multiplicity="1" />
-          <End Type="andinoshopModel.inventory" Role="inventory" Multiplicity="*" />
-        </Association>
         <ComplexType Name="Inventario_Result1">
           <Property Type="Int32" Name="inventory_id" Nullable="false" />
           <Property Type="Int32" Name="product_id" Nullable="false" />
@@ -419,6 +476,100 @@
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="total" Nullable="false" Precision="8" Scale="2" />
         </ComplexType>
+        <ComplexType Name="OrderDetail_Result">
+          <Property Type="Int32" Name="order_detail" Nullable="false" />
+          <Property Type="Int32" Name="order_id" Nullable="false" />
+          <Property Type="String" Name="Consecutive" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="product_id" Nullable="false" />
+          <Property Type="String" Name="Product" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="quantity" Nullable="false" />
+          <Property Type="Decimal" Name="price" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="tax" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="subtotal" Nullable="false" Precision="8" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="OrderDetailGuardar_Result">
+          <Property Type="Int32" Name="Estado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="inventory">
+          <Key>
+            <PropertyRef Name="inventory_id" />
+          </Key>
+          <Property Name="inventory_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="quantity" Type="Double" Nullable="false" />
+          <Property Name="measure_id" Type="Int32" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_modify" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="product" Relationship="andinoshopModel.FK_PD_Product" FromRole="inventory" ToRole="product" />
+          <NavigationProperty Name="user" Relationship="andinoshopModel.FK_UE_User" FromRole="inventory" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_PD_Product">
+          <End Type="andinoshopModel.product" Role="product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="andinoshopModel.inventory" Role="inventory" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_UE_User">
+          <End Type="andinoshopModel.user" Role="user" Multiplicity="1" />
+          <End Type="andinoshopModel.inventory" Role="inventory" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="Inventario_Result3">
+          <Property Type="Int32" Name="inventory_id" Nullable="false" />
+          <Property Type="Int32" Name="product_id" Nullable="false" />
+          <Property Type="String" Name="Producto" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="user_id" Nullable="false" />
+          <Property Type="String" Name="username" Nullable="false" MaxLength="128" />
+          <Property Type="Double" Name="quantity" Nullable="false" />
+          <Property Type="Int32" Name="measure_id" Nullable="false" />
+          <Property Type="String" Name="measure" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="date_created" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="date_modify" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="Productos_Result3">
+          <Property Type="Int32" Name="product_id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="name_brand" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="brand_id" Nullable="false" />
+          <Property Type="Int32" Name="category_id" Nullable="false" />
+          <Property Type="String" Name="description" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="name_category" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="price" Nullable="true" Precision="8" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="OrderDetail_Result1">
+          <Property Type="Int32" Name="order_detail" Nullable="false" />
+          <Property Type="Int32" Name="order_id" Nullable="false" />
+          <Property Type="String" Name="Consecutive" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="product_id" Nullable="false" />
+          <Property Type="String" Name="Product" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="quantity" Nullable="false" />
+          <Property Type="Decimal" Name="price" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="tax" Nullable="false" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="subtotal" Nullable="false" Precision="8" Scale="2" />
+        </ComplexType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="order_detail1" />
+          </Key>
+          <Property Name="order_detail1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="tax" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="subtotal" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <NavigationProperty Name="order" Relationship="andinoshopModel.FK_OD_Order" FromRole="order_detail" ToRole="order" />
+          <NavigationProperty Name="product" Relationship="andinoshopModel.FK_PT_Product" FromRole="order_detail" ToRole="product" />
+        </EntityType>
+        <Association Name="FK_OD_Order">
+          <End Type="andinoshopModel.order" Role="order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="andinoshopModel.order_detail" Role="order_detail" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_PT_Product">
+          <End Type="andinoshopModel.product" Role="product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="andinoshopModel.order_detail" Role="order_detail" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -451,22 +602,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Productos_Result2" FunctionName="andinoshopModel.Store.Productos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="andinoshopModel.Productos_Result2">
-                <ScalarProperty Name="product_id" ColumnName="product_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="name_brand" ColumnName="name_brand" />
-                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
-                <ScalarProperty Name="category_id" ColumnName="category_id" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="name_category" ColumnName="name_category" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="product">
             <EntityTypeMapping TypeName="andinoshopModel.product">
               <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="date_added" ColumnName="date_added" />
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -530,10 +669,37 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Orders_Result3" FunctionName="andinoshopModel.Store.Orders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="andinoshopModel.Orders_Result3">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="consecutive" ColumnName="consecutive" />
+                <ScalarProperty Name="date_order" ColumnName="date_order" />
+                <ScalarProperty Name="date_delivered" ColumnName="date_delivered" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="tax_total" ColumnName="tax_total" />
+                <ScalarProperty Name="delivery" ColumnName="delivery" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OrderDetailGuardar_Result" FunctionName="andinoshopModel.Store.OrderDetailGuardar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="andinoshopModel.OrderDetailGuardar_Result">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="inventory">
             <EntityTypeMapping TypeName="andinoshopModel.inventory">
               <MappingFragment StoreEntitySet="inventory">
-                <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="date_modify" ColumnName="date_modify" />
                 <ScalarProperty Name="date_created" ColumnName="date_created" />
                 <ScalarProperty Name="measure_id" ColumnName="measure_id" />
@@ -558,9 +724,9 @@
               <ScalarProperty Name="user_id" ColumnName="user_id" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="Inventario_Result2" FunctionName="andinoshopModel.Store.Inventario">
+          <FunctionImportMapping FunctionImportName="Inventario_Result3" FunctionName="andinoshopModel.Store.Inventario">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="andinoshopModel.Inventario_Result2">
+              <ComplexTypeMapping TypeName="andinoshopModel.Inventario_Result3">
                 <ScalarProperty Name="inventory_id" ColumnName="inventory_id" />
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
                 <ScalarProperty Name="Producto" ColumnName="Producto" />
@@ -571,30 +737,65 @@
                 <ScalarProperty Name="measure" ColumnName="measure" />
                 <ScalarProperty Name="date_created" ColumnName="date_created" />
                 <ScalarProperty Name="date_modify" ColumnName="date_modify" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Productos_Result3" FunctionName="andinoshopModel.Store.Productos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="andinoshopModel.Productos_Result3">
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="name_brand" ColumnName="name_brand" />
+                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name_category" ColumnName="name_category" />
                 <ScalarProperty Name="price" ColumnName="price" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Orders_Result3" FunctionName="andinoshopModel.Store.Orders">
+          <FunctionImportMapping FunctionImportName="OrderDetail_Result1" FunctionName="andinoshopModel.Store.OrderDetail">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="andinoshopModel.Orders_Result3">
+              <ComplexTypeMapping TypeName="andinoshopModel.OrderDetail_Result1">
+                <ScalarProperty Name="order_detail" ColumnName="order_detail" />
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
-                <ScalarProperty Name="consecutive" ColumnName="consecutive" />
-                <ScalarProperty Name="date_order" ColumnName="date_order" />
-                <ScalarProperty Name="date_delivered" ColumnName="date_delivered" />
-                <ScalarProperty Name="client_id" ColumnName="client_id" />
-                <ScalarProperty Name="cliente" ColumnName="cliente" />
-                <ScalarProperty Name="address_id" ColumnName="address_id" />
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="Consecutive" ColumnName="Consecutive" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="tax" ColumnName="tax" />
                 <ScalarProperty Name="subtotal" ColumnName="subtotal" />
-                <ScalarProperty Name="tax_total" ColumnName="tax_total" />
-                <ScalarProperty Name="delivery" ColumnName="delivery" />
-                <ScalarProperty Name="status_id" ColumnName="status_id" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="total" ColumnName="total" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="order_detail">
+            <EntityTypeMapping TypeName="andinoshopModel.order_detail">
+              <MappingFragment StoreEntitySet="order_detail">
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="tax" ColumnName="tax" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="order_detail1" ColumnName="order_detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_OD_Order" TypeName="andinoshopModel.FK_OD_Order" StoreEntitySet="order_detail">
+            <EndProperty Name="order_detail">
+              <ScalarProperty Name="order_detail1" ColumnName="order_detail" />
+            </EndProperty>
+            <EndProperty Name="order">
+              <ScalarProperty Name="order_id" ColumnName="order_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_PT_Product" TypeName="andinoshopModel.FK_PT_Product" StoreEntitySet="order_detail">
+            <EndProperty Name="order_detail">
+              <ScalarProperty Name="order_detail1" ColumnName="order_detail" />
+            </EndProperty>
+            <EndProperty Name="product">
+              <ScalarProperty Name="product_id" ColumnName="product_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

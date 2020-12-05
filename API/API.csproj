@@ -183,6 +183,7 @@
     <Compile Include="Controllers\clientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\inventoryController.cs" />
+    <Compile Include="Controllers\orderdetailController.cs" />
     <Compile Include="Controllers\productsController.cs" />
     <Compile Include="Controllers\ordenController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
@@ -221,6 +222,9 @@
     <Compile Include="Models\Inventario_Result2.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Inventario_Result3.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\inventory.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
@@ -229,6 +233,16 @@
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\order.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\orderdetailCLS.cs" />
+    <Compile Include="Models\OrderDetailGuardar_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderDetail_Result.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderDetail_Result1.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Orders_Result.cs">
@@ -243,6 +257,9 @@
     <Compile Include="Models\Orders_Result3.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\order_detail.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\product.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
@@ -253,6 +270,9 @@
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Productos_Result2.cs">
+      <DependentUpon>andinoshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Productos_Result3.cs">
       <DependentUpon>andinoshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RefreshTokenRequest.cs" />

@@ -14,6 +14,12 @@ namespace API.Models
     
     public partial class order
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public order()
+        {
+            this.order_detail = new HashSet<order_detail>();
+        }
+    
         public int order_id { get; set; }
         public string consecutive { get; set; }
         public System.DateTime date_order { get; set; }
@@ -26,5 +32,7 @@ namespace API.Models
         public decimal total { get; set; }
     
         public virtual client client { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<order_detail> order_detail { get; set; }
     }
 }

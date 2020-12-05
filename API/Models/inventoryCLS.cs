@@ -13,6 +13,5 @@ namespace API.Models
         public float quantity { get; set; }
         public int measure_id { get; set; }
         public DateTime date_created { get; set; }
-        public decimal price { get; set; }
     }
 }

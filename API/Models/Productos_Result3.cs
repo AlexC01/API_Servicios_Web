@@ -10,17 +10,16 @@
 namespace API.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class inventory
+    public partial class Productos_Result3
     {
-        public int inventory_id { get; set; }
-        public double quantity { get; set; }
-        public Nullable<int> measure_id { get; set; }
-        public System.DateTime date_created { get; set; }
-        public Nullable<System.DateTime> date_modify { get; set; }
-    
-        public virtual product product { get; set; }
-        public virtual user user { get; set; }
+        public int product_id { get; set; }
+        public string name { get; set; }
+        public string name_brand { get; set; }
+        public int brand_id { get; set; }
+        public int category_id { get; set; }
+        public string description { get; set; }
+        public string name_category { get; set; }
+        public Nullable<decimal> price { get; set; }
     }
 }

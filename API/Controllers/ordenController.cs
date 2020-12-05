@@ -10,6 +10,7 @@ using System.Web.Http.Cors;
 namespace API.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [Authorize]
     public class ordenController : ApiController
     {
         private andinoshopEntities1 db = new andinoshopEntities1();

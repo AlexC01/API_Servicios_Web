@@ -10,17 +10,17 @@
 namespace API.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class inventory
+    public partial class OrderDetail_Result1
     {
-        public int inventory_id { get; set; }
-        public double quantity { get; set; }
-        public Nullable<int> measure_id { get; set; }
-        public System.DateTime date_created { get; set; }
-        public Nullable<System.DateTime> date_modify { get; set; }
-    
-        public virtual product product { get; set; }
-        public virtual user user { get; set; }
+        public int order_detail { get; set; }
+        public int order_id { get; set; }
+        public string Consecutive { get; set; }
+        public int product_id { get; set; }
+        public string Product { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
+        public decimal tax { get; set; }
+        public decimal subtotal { get; set; }
     }
 }

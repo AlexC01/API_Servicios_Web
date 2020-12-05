@@ -10,17 +10,18 @@ using System.Web.Http.Cors;
 namespace API.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [Authorize]
     public class inventoryController : ApiController
     {
         private andinoshopEntities1 db = new andinoshopEntities1();
-        public List<Inventario_Result2> GetInventario_Result()
+        public List<Inventario_Result3> GetInventario_Result()
         {
-            return db.Inventario_Result2().ToList();
+            return db.Inventario_Result3().ToList();
         }
 
         public IHttpActionResult Post(Models.inventoryCLS inventory)
         {
-            db.InventarioGuardar_Result(0, inventory.product_id, inventory.user_id, inventory.quantity, inventory.measure_id, inventory.date_created, inventory.price ,"A");
+            db.InventarioGuardar_Result(0, inventory.product_id, inventory.user_id, inventory.quantity, inventory.measure_id, inventory.date_created ,"A");
             return CreatedAtRoute("DefaultApi", new { id = inventory.inventory_id }, inventory);
         }
 
@@ -36,7 +37,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            db.InventarioGuardar_Result(inventory.inventory_id, inventory.product_id, inventory.user_id, inventory.quantity, inventory.measure_id, inventory.date_created, inventory.price, "U");
+            db.InventarioGuardar_Result(inventory.inventory_id, inventory.product_id, inventory.user_id, inventory.quantity, inventory.measure_id, inventory.date_created, "U");
             return StatusCode(HttpStatusCode.NoContent);
         }
 
