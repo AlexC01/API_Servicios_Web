@@ -172,14 +172,14 @@ namespace API.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Inventario_Result3>("Inventario_Result3");
         }
     
-        public virtual ObjectResult<Productos_Result3> Productos_Result3()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Productos_Result3>("Productos_Result3");
-        }
-    
         public virtual ObjectResult<OrderDetail_Result1> OrderDetail_Result1()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrderDetail_Result1>("OrderDetail_Result1");
+        }
+    
+        public virtual ObjectResult<Productos_Result4> Productos_Result4()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Productos_Result4>("Productos_Result4");
         }
     }
 }

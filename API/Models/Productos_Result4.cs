@@ -10,16 +10,17 @@
 namespace API.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class product
+    public partial class Productos_Result4
     {
         public int product_id { get; set; }
         public string name { get; set; }
+        public string name_brand { get; set; }
         public int brand_id { get; set; }
-        public string description { get; set; }
         public int category_id { get; set; }
-        public Nullable<System.DateTime> date_added { get; set; }
+        public string description { get; set; }
+        public string name_category { get; set; }
         public Nullable<decimal> price { get; set; }
+        public Nullable<System.DateTime> date_added { get; set; }
     }
 }
