@@ -23,7 +23,8 @@ namespace API.Controllers
         public IHttpActionResult Post(Models.orden test)
         {
             db.OrdenGuardar_Result(test.order_id, null, test.date_order, test.client_id, test.address_id, test.subtotal, test.tax_total, test.delivery, test.status_id, test.total, "A");
-            return CreatedAtRoute("DefaultApi", new { id = test.order_id}, test);
+            int lastorderid = db.order.Max(item => item.order_id);
+            return CreatedAtRoute("DefaultApi", new { id = lastorderid }, lastorderid);
         }
 
         public IHttpActionResult Putorden(int order_id, Models.orden test)
